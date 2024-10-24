@@ -14,7 +14,7 @@
 - [Anatomically Constrained Neural Networks (ACNN): Application to Cardiac Image Enhancement and Segmentation - TMI2018](https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=8051114)
 
 
-
+![2d ultrasound](Images/1.png)
 
 ## Timeline
 
