@@ -64,3 +64,5 @@
 **Reference Structure**
 
 ![anatomical_structure](Images/anatomical_structure.png)
+
+ (https://doi.org/10.3389/fcvm.2020.00025)
