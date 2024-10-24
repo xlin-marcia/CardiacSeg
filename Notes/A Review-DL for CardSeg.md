@@ -30,8 +30,8 @@
 
 # DL Methods
 
-![sum_models](CardiacSeg/Images/summary_of_methods.png)
+![sum_models](../Images/summary_of_methods.png)
 
-![mode_acc](CardiacSeg/Images/methods_acc.png)
+![mode_acc](../Images/methods_acc.png)
 
-![CT_model](CardiacSeg/Images/model_for_CT.png)
+![CT_model](../Images/model_for_CT.png)
