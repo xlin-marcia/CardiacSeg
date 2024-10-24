@@ -9,6 +9,8 @@
 
 - [MaPLe: Multi-modal Prompt Learning - CVPR2023](https://openaccess.thecvf.com/content/CVPR2023/papers/Khattak_MaPLe_Multi-Modal_Prompt_Learning_CVPR_2023_paper.pdf)
 
+- [Cardiac segmentation from LGE MRI using deep neural network incorporating shape and spatial priors - MICCAI2019](https://arxiv.org/pdf/1906.07347)
+
 - [A survey on shape-constraint deep learning for medical image segmentation - BME2021](https://arxiv.org/abs/2101.07721)
 
 - [Learning with Explicit Shape Priors for Medical  Image Segmentation - TMI2024](https://arxiv.org/pdf/2303.17967)
