@@ -60,4 +60,4 @@
 
 **Reference Structure**
 
-[anatomical_structure](Images/anatomical_structure.png)
+![anatomical_structure](Images/anatomical_structure.png)
