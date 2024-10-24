@@ -12,10 +12,6 @@
 - [Shape-Aware Deep Neural Networks for Biomedical Image Segmentation - ICCV2021](https://openaccess.thecvf.com/content/ICCV2021/papers/Cao_ShapeConv_Shape-Aware_Convolutional_Layer_for_Indoor_RGB-D_Semantic_Segmentation_ICCV_2021_paper.pdf)
 
 - [Anatomically Constrained Neural Networks (ACNN): Application to Cardiac Image Enhancement and Segmentation - TMI2018](https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=8051114)
-
-
-![2d ultrasound](Images/1.png)
-
 ## Timeline
 
 **Oct/30 Update:**
