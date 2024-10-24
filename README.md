@@ -3,15 +3,28 @@
 
 ## List of Paper
 
-- [Segmentation with Shape Priors: A Review - TMI2024](https://arxiv.org/abs/2303.17967)
-
-- Shape-Aware Deep Neural Networks for Biomedical Image Segmentation
-
-- Anatomically Constrained Neural Networks (ACNN): Application to Cardiac Image Enhancement and Segmentation
-
-- Learning with Explicit Shape Priors for Medical  Image Segmentation
-
 - [MaPLe: Multi-modal Prompt Learning - CVPR2023](https://openaccess.thecvf.com/content/CVPR2023/papers/Khattak_MaPLe_Multi-Modal_Prompt_Learning_CVPR_2023_paper.pdf)
+
+- [A survey on shape-constraint deep learning for medical image segmentation - BME2021](https://arxiv.org/abs/2101.07721)
+
+- [Learning with Explicit Shape Priors for Medical  Image Segmentation - TMI2024](https://arxiv.org/pdf/2303.17967)
+
+- [Shape-Aware Deep Neural Networks for Biomedical Image Segmentation - ICCV2021] (https://openaccess.thecvf.com/content/ICCV2021/papers/Cao_ShapeConv_Shape-Aware_Convolutional_Layer_for_Indoor_RGB-D_Semantic_Segmentation_ICCV_2021_paper.pdf)
+
+- [Anatomically Constrained Neural Networks (ACNN): Application to Cardiac Image Enhancement and Segmentation - TMI2018](https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=8051114)
+
+
+
+
+## Timeline
+
+**Oct/30 Update:**
+
+- Results of SAM2 on 4 datasets
+
+- Inspiration from MICCAI 2024 paper
+
+- Purpose of cardiac segmentation in clinical application; applicable medical scenario
 
 
 ## To be explored
@@ -43,16 +56,6 @@
 	
 	- SAM
 
-
-## Timeline
-
-**Oct/30 Update:**
-
-- Results of SAM2 on 4 datasets
-
-- Inspiration from MICCAI 2024 paper
-
-- Purpose of cardiac segmentation in clinical application; applicable medical scenario
 
 
 ## Finished Experiments
