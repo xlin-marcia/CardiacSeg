@@ -67,6 +67,8 @@
 
 # Innovation on my paper
 
+![refer_model](../Images/sam2_arch.png)
+
 - Add an anatomically aware attention block after text & point promt, before mask decoder
 
 - This "shap prior" could be involved in the training process, just like memory bank, it can be refined more and more.
