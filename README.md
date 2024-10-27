@@ -34,6 +34,8 @@
 
 - Purpose of cardiac segmentation in clinical application; applicable medical scenario
 
+- Fine Tune on MOSE
+
 - MICCAI 2024 paper on SAM
 
 - LORA on fine tuning
@@ -56,8 +58,6 @@
 	- MedSAM
 	
 	- MedSAM2
-	
-	- SAM
 
 
 
