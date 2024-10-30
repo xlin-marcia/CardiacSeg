@@ -1,5 +1,10 @@
 # CardiacSeg
 
+**Reference Structure**
+
+![anatomical_structure](asset/anatomical_structure.png)
+
+ (https://doi.org/10.3389/fcvm.2020.00025)
 
 ## List of Paper
 
@@ -32,26 +37,26 @@
 
 ## To be explored
 
-- Purpose of cardiac segmentation in clinical application; applicable medical scenario
+- Literature Review on Shape Prior
 
-- Fine Tune on MOSE
+	- Feasible method for shape prior for anatomically aware block
+
+- Literature Review on video segmentation
 
 - MICCAI 2024 paper on SAM
+
+- Design of loss function to add shape constraint in the training loop
 
 - LORA on fine tuning
 
 - Metric that measure accuracy for edges
 
-- CT set with normal patients (no CHD)
 
-- Feasible method for shape prior for anatomically aware block
-
-- Design of loss function to add shape constraint in the training loop
 
 
 ## Experiments to be done
 
-- SAM2 on four datasets
+- SAM2 on 2 datasets
 
 - Comparison Test:
 
@@ -63,13 +68,3 @@
 
 
 
-
-
----
-
-
-**Reference Structure**
-
-![anatomical_structure](Images/anatomical_structure.png)
-
- (https://doi.org/10.3389/fcvm.2020.00025)
