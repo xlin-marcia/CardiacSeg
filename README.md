@@ -34,6 +34,13 @@
 
 - Purpose of cardiac segmentation in clinical application; applicable medical scenario
 
+**Nov/6 Update:**
+
+- Literature Review on Shape Prior <br>**[[Note]](Notes/shape_prior.md)**
+
+- Literature Review on Video Segmentation 
+	(How to tackle temporal information)
+
 
 ## To be explored
 
