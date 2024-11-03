@@ -80,6 +80,7 @@
   - Output of the AnatSwin is [H, W, C], where C is the number of categories; C=4;
 
   - Background, LV, RV, MYO
+  
 
 - **Loss Function:**
 
