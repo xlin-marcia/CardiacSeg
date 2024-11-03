@@ -6,141 +6,127 @@
 
 - **Encoder:**
 
-    - Takes template label image and pseudo label image as input
+  - Takes template label image and pseudo label image as input
 
-    - Temlate label image is GT, pseudo label image is from registration model
+  - Temlate label image is GT, pseudo label image is from registration model
 
-    - The transformer is chosen for this architecture because of its strength in capturing long-range correlations, which are essential for representing both tissue morphology and spatial relationships between tissues. 
-    
-    - The encoder first divides each input image into patches, embedding them into vectors of length 128. Then, multi-scale features are extracted using a modified Swin Transformer (Swin-B version) with three layers, generating hierarchical features for both template and pseudo-label images.
+  - The transformer is chosen for this architecture because of its strength in capturing long-range correlations, which are essential for representing both tissue morphology and spatial relationships between tissues.
 
-    - The features extracted from the two inputs undergo a comprehensive interaction through the FI block to generate the interacted features. These interacted features are then propagated back to their respective branches for further processing. 
+  - The encoder first divides each input image into patches, embedding them into vectors of length 128. Then, multi-scale features are extracted using a modified Swin Transformer (Swin-B version) with three layers, generating hierarchical features for both template and pseudo-label images.
 
-    - FIE(⋅) denotes the feature interaction operation through the proposed FI block in the encoder.
+  - The features extracted from the two inputs undergo a comprehensive interaction through the FI block to generate the interacted features. These interacted features are then propagated back to their respective branches for further processing.
 
-    - Fused by weighted addition operation.
+  - FIE(⋅) denotes the feature interaction operation through the proposed FI block in the encoder.
 
+  - Fused by weighted addition operation.
 
 - **Decoder:**
 
-    -  Take the hierarchical features extracted from the encoder and guide the network to apply the correct anatomical constraints from the template to the pseudo-label.
+  - Take the hierarchical features extracted from the encoder and guide the network to apply the correct anatomical constraints from the template to the pseudo-label.
 
-    - Feature Fusion: The decoder fuses features from both template and pseudo-label branches using an FI (Feature Interaction) block, creating combined features.
+  - Feature Fusion: The decoder fuses features from both template and pseudo-label branches using an FI (Feature Interaction) block, creating combined features.
 
-    - FID(⋅) denotes the feature fusion through the proposed FI block in the decoder.
+  - FID(⋅) denotes the feature fusion through the proposed FI block in the decoder.
 
-    - Concatenation: The fused features are then merged (concatenated) to form a deep, shared feature.
+  - Concatenation: The fused features are then merged (concatenated) to form a deep, shared feature.
 
-    - This deep-level feature is combined with shallow-level features through up-sampling and convolution. This process gradually combines information from different layers to create a more detailed feature map at each level.
+  - This deep-level feature is combined with shallow-level features through up-sampling and convolution. This process gradually combines information from different layers to create a more detailed feature map at each level.
 
-    - F Conv(⋅) comprises of an up-sampling operation, and two convolutional operations with 3 × 3 kernel size, each followed by a batch normalization layer and a rectified linear unit (ReLU) activation function.
+  - F Conv(⋅) comprises of an up-sampling operation, and two convolutional operations with 3 × 3 kernel size, each followed by a batch normalization layer and a rectified linear unit (ReLU) activation function.
 
-    - βi1 and βi2 are two learnable parameters that adaptively weight the contributions of features during training.
+  - βi1 and βi2 are two learnable parameters that adaptively weight the contributions of features during training.
 
 ![fi_block](../asset/fi_block.png)
 
 - **F1 Block:**
 
-    - The FI block is also designed to facilitate information interaction between features at the same hierarchy and learn the correlation between them, thereby improving the ability to capture anatomical structures.
+  - The FI block is also designed to facilitate information interaction between features at the same hierarchy and learn the correlation between them, thereby improving the ability to capture anatomical structures.
 
-    - In encoder to enhance the semantic representation of label features
-    
-    - And also within the decoder to guide the generation of the cross-correlation feature.
+  - In encoder to enhance the semantic representation of label features
 
-    - 2 types of attention:
-        
-        - **Channel Attention** focuses on important channels in the features, enhancing relevant anatomical information.
+  - And also within the decoder to guide the generation of the cross-correlation feature.
 
-        - **Spatial Attention** emphasizes important spatial regions in the features, allowing the model to focus on specific areas that are more relevant to the task.
+  - 2 types of attention:
 
-    - Flow:
+    - **Channel Attention** focuses on important channels in the features, enhancing relevant anatomical information.
 
-        - Fuse Ft and Fp
+    - **Spatial Attention** emphasizes important spatial regions in the features, allowing the model to focus on specific areas that are more relevant to the task.
 
-             ![bconv](../asset/bconv.png)
+  - Flow:
 
-        - Generate spatio-channel attention map through two attention blocks
+    - Fuse Ft and Fp
 
-            ![attention_map](../asset/attention_map.png)
-            ![spatio_channel](../asset/spatio_and_channel.png)
-        
-            - CGMP (⋅) is the global max pooling operation along channel direction
+        ![bconv](../asset/bconv.png)
 
-            - GMP (⋅) presents the global max pooling operation
+    - Generate spatio-channel attention map through two attention blocks
 
-        - Interacted Features
+        ![attention_map](../asset/attention_map.png)
+        ![spatio_channel](../asset/spatio_and_channel.png)
 
-            ![interacted_feat](../asset/interacted_features.png)
+      - CGMP (⋅) is the global max pooling operation along channel direction
 
-            - δ is learnable parameters of the features at ith hierachy in F1 Block
+      - GMP (⋅) presents the global max pooling operation
+
+    - Interacted Features
+
+        ![interacted_feat](../asset/interacted_features.png)
+
+      - δ is learnable parameters of the features at ith hierachy in F1 Block
 
 - **Output:**
 
-    - Input image size is [H, W]
+  - Input image size is [H, W]
 
-    - Output of the AnatSwin is [H, W, C], where C is the number of categories; C=4; 
+  - Output of the AnatSwin is [H, W, C], where C is the number of categories; C=4;
 
-    - Background, LV, RV, MYO
-
+  - Background, LV, RV, MYO
 
 - **Loss Function:**
 
-    - Dice Loss
+  - Dice Loss
 
-        ![dice_loss](../asset/dice_loss.png)
+    ![dice_loss](../asset/dice_loss.png)
 
-    - N = H × W
+  - N = H × W
 
-    - \( y^c_i \) is the predicted value of the \( c \)-th class for the \( i \)-th pixel
-    
-    - \( \hat{y}^c_i \in \{0, 1\} \) represents the corresponding ground truth
-    
-        - i.e., when the pixel belongs to the \( c \)-th class, \( \hat{y}^c_i = 1 \); otherwise, \( \hat{y}^c_i = 0 \). 
-        
-        - \( \varepsilon \) is a small positive number to maintain numerical stability.
+  - \( y^c_i\) is the predicted value of the \( c \)-th class for the $( i )-th pixel
+
+  - \( \hat{y}^c_i \in \{0, 1\} \) represents the corresponding ground truth
+
+    - i.e., when the pixel belongs to the \( c \)-th class, \( \hat{y}^c_i = 1 \); otherwise, \( \hat{y}^c_i = 0 \).
+
+    - \( \varepsilon \) is a small positive number to maintain numerical stability.
 
 - **Performance**
 
-    - The FI block exhibits a significant impact on improving the segmentation accuracy of the morphologically irregular RV, while its effect on the more regular LV is less pronounced. 
-    
-    - This discrepancy in performance can be attributed to the inherent differences in shape complexity across anatomies.
+  - The FI block exhibits a significant impact on improving the segmentation accuracy of the morphologically irregular RV, while its effect on the more regular LV is less pronounced.
 
-    - FI block demonstrates greater efficacy in boosting segmentation performance on cross-modal test images divergent from the training data modality compared to matched modalities.
+  - This discrepancy in performance can be attributed to the inherent differences in shape complexity across anatomies.
+
+  - FI block demonstrates greater efficacy in boosting segmentation performance on cross-modal test images divergent from the training data modality compared to matched modalities.
 
 - Lacking
 
-    - convolutional operations are not included in the two branches of the encoder.
+  - convolutional operations are not included in the two branches of the encoder.
 
-    - can introduce additional edge constraint branch
+  - can introduce additional edge constraint branch
 
-    - the model does not explicitly utilize anatomical structure information as prior knowledge.
+  - the model does not explicitly utilize anatomical structure information as prior knowledge.
 
-    - incorporation of a multimodal loss function combined with other norm, such as low-rank
-
+  - incorporation of a multimodal loss function combined with other norm, such as low-rank
 
 ## [Learning with Explicit Shape Priors for Medical  Image Segmentation](https://arxiv.org/pdf/2303.17967)
 
 (TMI 2024)
 
-
-
-
-
 ## [Anatomy-Guided Pathology Segmentation](https://arxiv.org/pdf/2407.05844)
 
 (MICCAI 2024)
-
-
 
 ## [Cardiac Segmentation With Strong  Anatomical Guarantees](https://arxiv.org/pdf/2006.08825)
 
 (TMI 2020)
 
-
-
 ## [Accurate Airway Tree Segmentation in CT Scans](https://arxiv.org/pdf/2306.09116)
 
 (TMI 2023)
-
-
-
