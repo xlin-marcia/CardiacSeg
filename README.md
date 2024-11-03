@@ -4,7 +4,7 @@
 
 ![anatomical_structure](asset/anatomical_structure.png)
 
- (https://doi.org/10.3389/fcvm.2020.00025)
+ (<https://doi.org/10.3389/fcvm.2020.00025>)
 
 ## List of Paper
 
@@ -24,6 +24,7 @@
 - [Shape-Aware Deep Neural Networks for Biomedical Image Segmentation - ICCV2021](https://openaccess.thecvf.com/content/ICCV2021/papers/Cao_ShapeConv_Shape-Aware_Convolutional_Layer_for_Indoor_RGB-D_Semantic_Segmentation_ICCV_2021_paper.pdf)
 
 - [Anatomically Constrained Neural Networks (ACNN): Application to Cardiac Image Enhancement and Segmentation - TMI2018](https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=8051114)
+
 ## Timeline
 
 **Oct/30 Update:**
@@ -38,15 +39,14 @@
 
 - Literature Review on Shape Prior <br>**[[Note]](Notes/shape_prior.md)**
 
-- Literature Review on Video Segmentation 
-	(How to tackle temporal information)
-
+- Literature Review on Video Segmentation
+(How to tackle temporal information) <br>**[[Note]](Notes/video_seg.md)**
 
 ## To be explored
 
 - Literature Review on Shape Prior
 
-	- Feasible method for shape prior for anatomically aware block
+  - Feasible method for shape prior for anatomically aware block
 
 - Literature Review on video segmentation
 
@@ -58,20 +58,12 @@
 
 - Metric that measure accuracy for edges
 
-
-
-
 ## Experiments to be done
 
 - SAM2 on 2 datasets
 
 - Comparison Test:
 
-	- MedSAM
-	
-	- MedSAM2
+  - MedSAM
 
-
-
-
-
+  - MedSAM2
