@@ -4,11 +4,11 @@
 
 ![anatswin_arch](../asset/anatswin_arch.png)
 
-- **Encoder**
+- **Encoder:**
 
     - Takes template label image and pseudo label image as input
 
-    - temlate label image is GT, pswudo label image is from registration model
+    - Temlate label image is GT, pseudo label image is from registration model
 
     - The transformer is chosen for this architecture because of its strength in capturing long-range correlations, which are essential for representing both tissue morphology and spatial relationships between tissues. 
     
@@ -21,7 +21,7 @@
     - Fused by weighted addition operation.
 
 
-- **Decoder**
+- **Decoder:**
 
     -  Take the hierarchical features extracted from the encoder and guide the network to apply the correct anatomical constraints from the template to the pseudo-label.
 
@@ -39,11 +39,84 @@
 
 ![fi_block](../asset/fi_block.png)
 
-- F1 Block:
+- **F1 Block:**
 
     - The FI block is also designed to facilitate information interaction between features at the same hierarchy and learn the correlation between them, thereby improving the ability to capture anatomical structures.
 
+    - In encoder to enhance the semantic representation of label features
     
+    - And also within the decoder to guide the generation of the cross-correlation feature.
+
+    - 2 types of attention:
+        
+        - **Channel Attention** focuses on important channels in the features, enhancing relevant anatomical information.
+
+        - **Spatial Attention** emphasizes important spatial regions in the features, allowing the model to focus on specific areas that are more relevant to the task.
+
+    - Flow:
+
+        - Fuse Ft and Fp
+
+             ![bconv](../asset/bconv.png)
+
+        - Generate spatio-channel attention map through two attention blocks
+
+            ![attention_map](../asset/attention_map.png)
+            ![spatio_channel](../asset/spatio_and_channel.png)
+        
+            - CGMP (⋅) is the global max pooling operation along channel direction
+
+            - GMP (⋅) presents the global max pooling operation
+
+        - Interacted Features
+
+            ![interacted_feat](../asset/interacted_features.png)
+
+            - δ is learnable parameters of the features at ith hierachy in F1 Block
+
+- **Output:**
+
+    - Input image size is [H, W]
+
+    - Output of the AnatSwin is [H, W, C], where C is the number of categories; C=4; 
+
+    - Background, LV, RV, MYO
+
+
+- **Loss Function:**
+
+    - Dice Loss
+
+        ![dice_loss](../asset/dice_loss.png)
+
+    - N = H × W
+
+    - \( y^c_i \) is the predicted value of the \( c \)-th class for the \( i \)-th pixel
+    
+    - \( \hat{y}^c_i \in \{0, 1\} \) represents the corresponding ground truth
+    
+        - i.e., when the pixel belongs to the \( c \)-th class, \( \hat{y}^c_i = 1 \); otherwise, \( \hat{y}^c_i = 0 \). 
+        
+        - \( \varepsilon \) is a small positive number to maintain numerical stability.
+
+- **Performance**
+
+    - The FI block exhibits a significant impact on improving the segmentation accuracy of the morphologically irregular RV, while its effect on the more regular LV is less pronounced. 
+    
+    - This discrepancy in performance can be attributed to the inherent differences in shape complexity across anatomies.
+
+    - FI block demonstrates greater efficacy in boosting segmentation performance on cross-modal test images divergent from the training data modality compared to matched modalities.
+
+- Lacking
+
+    - convolutional operations are not included in the two branches of the encoder.
+
+    - can introduce additional edge constraint branch
+
+    - the model does not explicitly utilize anatomical structure information as prior knowledge.
+
+    - incorporation of a multimodal loss function combined with other norm, such as low-rank
+
 
 ## [Learning with Explicit Shape Priors for Medical  Image Segmentation](https://arxiv.org/pdf/2303.17967)
 
