@@ -80,7 +80,7 @@
   - Output of the AnatSwin is [H, W, C], where C is the number of categories; C=4;
 
   - Background, LV, RV, MYO
-  
+
 
 - **Loss Function:**
 
@@ -120,6 +120,8 @@
 
 (TMI 2024)
 
+
+
 ## [Anatomy-Guided Pathology Segmentation](https://arxiv.org/pdf/2407.05844)
 
 (MICCAI 2024)
@@ -128,6 +130,4 @@
 
 (TMI 2020)
 
-## [Accurate Airway Tree Segmentation in CT Scans](https://arxiv.org/pdf/2306.09116)
 
-(TMI 2023)
