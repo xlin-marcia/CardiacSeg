@@ -60,10 +60,10 @@
 
 ## Experiments to be done
 
-- SAM2 on 2 datasets
+- SAM2 on 2 datasets **[Marcia]**
 
-- Comparison Test:
+- Comparison Test for 2 datasets:
 
-  - MedSAM
+  - nnUNet **[Arjun]**
 
-  - MedSAM2
+  - MedSAM2 **[Arjun]**
