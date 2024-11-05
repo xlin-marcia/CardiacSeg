@@ -124,6 +124,10 @@
 
   - The shape/size of ROI varies through out the 3D slices, requiring manual intervention (changee of point/box/mask prompt) in each slice. We propose a dynamic 3D shape prior that can dynamically adjust the shape prior for each slice (with different thinkness)
 
+  - SUB - long dependencies
+  - CUB - local shape
+  - hierachical structure like swin transformer to capture the relationship between each slice
+
 - Explicit shape prior: 
 
   They show strong interpretability, which presents a rough localization for the regions of interest (ROIs).
@@ -172,7 +176,7 @@
 
     - Output: Enhanced Shape Priors $S_e$ and Enhanced skipped features $F_e$
 
-    - **!!!QUESTION: where is $S_0$ coming from?**
+    - **QUESTION: where is $S_0$ coming from? -- Randomly initiated, and refined through training loop**
 
 
 
@@ -186,9 +190,50 @@
 
       - spatial dimension depends on the batch size
 
-    - 
+    - affinity map of self-attention $S_{map}$ between N classes is constructed by:
 
-  - **Cross-Update Block (CUB):**
+      ![Smap](../asset/Smap_sub.png)
+    
+    - Global shape prior:
+
+      ![SG](../asset/global_shape_prior.png)
+
+
+  - **Cross-Update Block (CUB):** Model local shape prior
+
+    - SUB falls lack of inductive bias to model local visual structures and localize objects with various scales
+
+    - CUB based on convolution injects inductive bias to SPM for  local shape priors with finer shape information.
+
+    - Since convolutional features from the encoder have remarkable potentials to localize discriminative regions, authors attempt to interact original skipped features $F_o$ from the backbone with shape priors $S_o$
+
+    - Upsample $S_o$ to the same resolution as $F_o$, since they bear different scales
+
+    - Affinity map in cross attention:
+
+      ![Cross_map](../asset/cross_attention_map.png)
+
+    - $C_{map}$ is a C × N matrix, which evaluates the relations between C channel feature maps $F_o$ and N -channel shape priors.
+
+    - Enhanced skipped features:
+
+      ![Fe](../asset/enhanced_skipped.png)
+
+    - Local Shape Prior:
+
+      ![local_SP](../asset/S_l.png)
+
+    - Enhanced shape prior:
+
+      ![Se](../asset/S_e.png)
+
+    
+- Performance:
+
+  Introduction of CUB leads to 1.09% ↑ average Dice score increase on ACDC.
+
+  When SUB is applied to the structure of SPM, there is a further performance increase.
+
 
 
 ## [Anatomy-Guided Pathology Segmentation](https://arxiv.org/pdf/2407.05844)
