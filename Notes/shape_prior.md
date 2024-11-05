@@ -126,7 +126,7 @@
 
   - SUB - long dependencies
   - CUB - local shape
-  - hierachical structure like swin transformer to capture the relationship between each slice
+  - hierachical structure to capture the relationship between each slice, or a distribution or a map with concatenated shape priors from different slices.
 
 - Explicit shape prior: 
 
