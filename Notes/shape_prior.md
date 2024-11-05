@@ -234,7 +234,9 @@
 
   When SUB is applied to the structure of SPM, there is a further performance increase.
 
+### Innovation
 
+![innovative_structure](../asset/innovative_structure.jpg)
 
 ## [Anatomy-Guided Pathology Segmentation](https://arxiv.org/pdf/2407.05844)
 
