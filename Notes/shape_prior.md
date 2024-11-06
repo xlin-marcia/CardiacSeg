@@ -1,3 +1,17 @@
+
+<!-- @import "[TOC]" {cmd="toc" depthFrom=1 depthTo=6 orderedList=false} -->
+
+<!-- code_chunk_output -->
+
+- [AnatSwin](#anatswinhttpswwwsciencedirectcomsciencearticlepiis0925231224001504)
+- [Learning with Explicit Shape Priors for Medical  Image Segmentation](#learning-with-explicit-shape-priors-for-medical--image-segmentationhttpsarxivorgpdf230317967)
+  - [Innovation](#innovation)
+- [Anatomy-Guided Pathology Segmentation](#anatomy-guided-pathology-segmentationhttpsarxivorgpdf240705844)
+- [Cardiac Segmentation With Strong  Anatomical Guarantees](#cardiac-segmentation-with-strong--anatomical-guaranteeshttpsarxivorgpdf200608825)
+
+<!-- /code_chunk_output -->
+
+
 ## [AnatSwin](https://www.sciencedirect.com/science/article/pii/S0925231224001504)
 
 (Neurocomputing 2024)
