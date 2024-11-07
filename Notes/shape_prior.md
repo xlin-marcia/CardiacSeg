@@ -132,7 +132,7 @@
 
 ## [Learning with Explicit Shape Priors for Medical  Image Segmentation](https://arxiv.org/pdf/2303.17967)
 
-(TMI 2024)
+(TMI 2023)
 
 - **Inspiration:** 
 
