@@ -30,8 +30,8 @@
 
 # DL Methods
 
-![sum_models](../Images/summary_of_methods.png)
+![sum_models](../asset/summary_of_methods.png)
 
-![mode_acc](../Images/methods_acc.png)
+![mode_acc](../asset/methods_acc.png)
 
-![CT_model](../Images/model_for_CT.png)
+![CT_model](../asset/model_for_CT.png)

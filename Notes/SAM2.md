@@ -8,7 +8,7 @@
 
 - After this, provide more prompt on other frame to refine this mask iteratively
 
-![interactive seg](../Images/iterative_refine.png)
+![interactive seg](../asset/iterative_refine.png)
 
 - Step 1: Selection
 
@@ -67,7 +67,7 @@
 
 # Innovation on my paper
 
-![refer_model](../Images/sam2_arch.png)
+![refer_model](../asset/sam2_arch.png)
 
 - Add an anatomically aware attention block after text & point promt, before mask decoder
 
