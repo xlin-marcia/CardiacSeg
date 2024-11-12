@@ -5,9 +5,9 @@
 
 - [Reducing Annotation Burden: Exploiting Image Knowledge for Few-Shot Medical Video Object Segmentation via Spatiotemporal Consistency Relearning](#reducing-annotation-burden-exploiting-image-knowledge-for-few-shot-medical-video-object-segmentation-via-spatiotemporal-consistency-relearninghttpspapersmiccaiorgmiccai-2024paper3024_paperpdf)
 - [Temporal Attention Unit: Towards Efficient Spatiotemporal Predictive Learning](#temporal-attention-unit-towards-efficient-spatiotemporal-predictive-learninghttpsarxivorgpdf220612126)
-- [SAM2Long](#sam2longhttpsarxivorgpdf241016268)
 - [Domain Adaptive Video Segmentation via Temporal Consistency Regularization](#domain-adaptive-video-segmentation-via-temporal-consistency-regularizationhttpsopenaccessthecvfcomcontenticcv2021papersguan_domain_adaptive_video_segmentation_via_temporal_consistency_regularization_iccv_2021_paperpdf)
 - [Domain Adaptive Video Segmentation via Temporal Pseudo Supervision](#domain-adaptive-video-segmentation-via-temporal-pseudo-supervisionhttpsarxivorgpdf220702372)
+- [SAM2Long](#sam2longhttpsarxivorgpdf241016268)
 
 <!-- /code_chunk_output -->
 
@@ -36,8 +36,29 @@
 
     - model segments $q_k$ guided by S
 
+- **Overall Flow:**
 
-- Network consist of 3 main parts:
+    - **First Part**: Pre-trained model identify useful features from support images
+
+    - use these features to create segmentation on query images -> roughly locate the target object
+
+    - Then it refines these to get more accurate segmentation
+
+    - **Second Part**: focus on spatiotemporal consistency
+
+    - This uses the assumption: object in video frames are similar from one frame to the next frame (temporal continuity)
+
+    - model “relearns” by using these frame-to-frame similarities to improve its accuracy over time
+
+- Learning Few-Shot Segmentation with Images
+
+    - The network has three main parts:
+
+        - **Pseudo Mask Generation Module** - Creates rough outlines of the target object in the query image.
+
+        - **Cross-Resolution Feature Fusion Module** - Combines details from support and query images to refine the segmentation.
+
+        - **Segmentation Head** - Final layer that produces the exact segmentation mask.
 
     - extract visual features from support and query images using a pre-trained backbone
 
@@ -50,6 +71,8 @@
             ![equ](../asset/pseudo_mask.png)
 
         - F() is backbone that can extract features
+
+        - the element-wise multiplication isolates and emphasizes only the features of the target object in the support image
 
         - then normalize $p_k$ to the range of [0, 1] using min-max normalization
 
@@ -87,21 +110,12 @@
     
     
 
-- [Reducing Annotation Burden: Exploiting Image Knowledge for Few-Shot Medical Video Object Segmentation via Spatiotemporal Consistency Relearning](#reducing-annotation-burden-exploiting-image-knowledge-for-few-shot-medical-video-object-segmentation-via-spatiotemporal-consistency-relearninghttpspapersmiccaiorgmiccai-2024paper3024_paperpdf)
-- [SAM2Long](#sam2longhttpsarxivorgpdf241016268)
-- [Domain Adaptive Video Segmentation via Temporal Consistency Regularization](#domain-adaptive-video-segmentation-via-temporal-consistency-regularizationhttpsopenaccessthecvfcomcontenticcv2021papersguan_domain_adaptive_video_segmentation_via_temporal_consistency_regularization_iccv_2021_paperpdf)
-- [Domain Adaptive Video Segmentation via Temporal Pseudo Supervision](#domain-adaptive-video-segmentation-via-temporal-pseudo-supervisionhttpsarxivorgpdf220702372)
-
 <!-- /code_chunk_output -->
 
 ## [Temporal Attention Unit: Towards Efficient Spatiotemporal Predictive Learning](https://arxiv.org/pdf/2206.12126)
 
 (CVPR 2023)
 
-
-## [SAM2Long](https://arxiv.org/pdf/2410.16268)
-
-(arXiv Preprint 2024)
 
 ## [Domain Adaptive Video Segmentation via Temporal Consistency Regularization](https://openaccess.thecvf.com/content/ICCV2021/papers/Guan_Domain_Adaptive_Video_Segmentation_via_Temporal_Consistency_Regularization_ICCV_2021_paper.pdf)
 
@@ -110,3 +124,7 @@
 ## [Domain Adaptive Video Segmentation via Temporal Pseudo Supervision](https://arxiv.org/pdf/2207.02372)
 
 (ECCV 2022)
+
+## [SAM2Long](https://arxiv.org/pdf/2410.16268)
+
+(arXiv Preprint 2024)
