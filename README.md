@@ -35,28 +35,34 @@
 
 - Purpose of cardiac segmentation in clinical application; applicable medical scenario
 
-**Nov/6 Update:**
+**Nov/6 and Nov/13 Update:**
 
 - Literature Review on Shape Prior <br>**[[Note]](Notes/shape_prior.md)**
 
 - Literature Review on Video Segmentation
 (How to tackle temporal information) <br>**[[Note]](Notes/video_seg.md)**
 
+
+
+
 ## To be explored
 
-- Literature Review on Shape Prior
-
-  - Feasible method for shape prior for anatomically aware block
-
-- Literature Review on video segmentation
-
-- MICCAI 2024 paper on SAM
+- MICCAI 2024 paper on SAM2
 
 - Design of loss function to add shape constraint in the training loop
 
 - LORA on fine tuning
 
 - Metric that measure accuracy for edges
+
+---------
+**Done**
+
+- Literature Review on Shape Prior
+
+  - Feasible method for shape prior for anatomically aware block
+
+- Literature Review on video segmentation
 
 ## Experiments to be done
 
