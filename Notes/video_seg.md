@@ -194,6 +194,74 @@
 
 (CVPR 2022)
 
+![comp](../asset/comp_tau.png)
+
+- TAU: a model that uses visual attention mechanism to parallelize the temporal evolution without the recurrent structure
+
+- $t$: The current time/frame
+
+- $T$: The length (or number) of past frames used as input to predict the future frames
+
+- $t-T+1$: the starting point of the input sequence of frames leading up to the current time t when the model is making predictions
+
+- Architecture Overview:
+
+![arch](../asset/overv.png)
+
+1. **Spatial Encoder**: has four basic 2D convolutional layers that process the input images to capture spatial details
+
+2. **Spatial Decoder**: has four layers, but they are “transposed” convolutions
+
+3. A **residual connection** links the first layer in the encoder to the last layer in the decoder
+
+4. In between the encoder and decoder, there are multiple **TAU modules**. They can efficiently learn both spatial-dependent and temporal-dependent features without recurrent architectures.
+
+- Detailed Schema:
+
+![schema](../asset/detailed_schema.png)
+
+This allows the model to understand both the spatial structure of each frame and how these structures change over time.
+
+- Input:
+
+     **Batch of Video Tensors**: a batch of video sequences represented as a tensor:
+
+    - \( B \) is the batch size (number of videos).
+    - \( T \) is the number of frames (time steps) in each video.
+    - \( C \) is the number of channels (e.g., RGB channels).
+    - \( H \) and \( W \) are the height and width of each frame.
+
+       
+
+\[
+B \in \mathbb{R}^{B \times T \times C \times H \times W}
+\]
+
+- **Spatial Encoder and Decoder Reshaping**
+
+   - To focus on spatial correlations within each frame.
+   - Reshaping:
+     \[
+     B \times T \times C \times H \times W \rightarrow (B \times T) \times C \times H \times W
+     \]
+     - treat each frame in every video as an independent image in the batch.
+     - This allows the spatial encoder and decoder to process frames individually.
+
+- **Temporal Module Reshaping**
+
+   - To focus on temporal correlations across frames.
+   - Reshaping:
+     \[
+     B \times T \times C \times H \times W \rightarrow B \times (T \times C) \times H \times W
+     \]
+     - combine the time and channel dimensions.
+     - This arranges the sequence of frames along the channel dimension, effectively stacking them for temporal processing.
+
+
+
+
+
+![inter_intra](../asset/inter_intra.png)
 
 ## [Domain Adaptive Video Segmentation via Temporal Consistency Regularization](https://openaccess.thecvf.com/content/ICCV2021/papers/Guan_Domain_Adaptive_Video_Segmentation_via_Temporal_Consistency_Regularization_ICCV_2021_paper.pdf)
 
