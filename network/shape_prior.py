@@ -15,8 +15,6 @@ class RefinePrior(nn.Module):
 
     def forward(self, shape_tokens):
         """
-        Forward pass for refining shape prior tokens.
-
         Args:
             shape_tokens: Tensor of shape [B, num_classes, embed_dim]
                 - B: Batch size
@@ -31,7 +29,7 @@ class RefinePrior(nn.Module):
 
 class CrossAttention(nn.Module):
     """
-    Cross-attention layer to compute attention between two different sets of tokens (e.g., image and shape tokens).
+    Cross-attention layer to compute attention between image and shape token.
     """
     def __init__(self, config):
         super(CrossAttention, self).__init__()
@@ -54,17 +52,12 @@ class CrossAttention(nn.Module):
         self.softmax = nn.Softmax(dim=-1)
 
     def transpose_for_scores(self, x):
-        """
-        Transpose and reshape tensor to split into attention heads.
-        """
         new_shape = x.size()[:-1] + (self.num_attention_heads, self.attention_head_size)
         x = x.view(*new_shape)
         return x.permute(0, 2, 1, 3)
 
     def forward(self, query_tokens, key_value_tokens):
         """
-        Forward pass for cross-attention.
-
         Args:
             query_tokens: Tensor of shape [B, query_len, embed_dim]
             key_value_tokens: Tensor of shape [B, key_value_len, embed_dim]
@@ -99,9 +92,6 @@ class CrossAttention(nn.Module):
 
 
 class Attention(nn.Module):
-    """
-    Configurable self-attention layer with optional relative positional embeddings.
-    """
     def __init__(self, config):
         super(Attention, self).__init__()
         self.num_attention_heads = config.transformer.num_heads
@@ -127,17 +117,11 @@ class Attention(nn.Module):
         self.softmax = nn.Softmax(dim=-1)
 
     def transpose_for_scores(self, x):
-        """
-        Transpose and reshape tensor to split it into attention heads.
-        """
         new_shape = x.size()[:-1] + (self.num_attention_heads, self.attention_head_size)
         x = x.view(*new_shape)
         return x.permute(0, 2, 1, 3)
 
     def forward(self, hidden_states):
-        """
-        Forward pass for the attention layer.
-        """
         query_layer = self.transpose_for_scores(self.query(hidden_states))
         key_layer = self.transpose_for_scores(self.key(hidden_states))
         value_layer = self.transpose_for_scores(self.value(hidden_states))
