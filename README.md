@@ -42,7 +42,11 @@
 - Literature Review on Video Segmentation
 (How to tackle temporal information) <br>**[[Note]](Notes/video_seg.md)**
 
+**Nov/20 Update:**
 
+- Detailed Notes for SAM2 architecture <br>**[[Note]](Notes/SAM2.md)**
+
+- TAU module for temporal <br>**[[Note]](Notes/video_seg.md)**
 
 
 ## To be explored
