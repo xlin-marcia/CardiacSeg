@@ -226,24 +226,20 @@ This allows the model to understand both the spatial structure of each frame and
 
      **Batch of Video Tensors**: a batch of video sequences represented as a tensor:
 
-    - \( B \) is the batch size (number of videos).
-    - \( T \) is the number of frames (time steps) in each video.
-    - \( C \) is the number of channels (e.g., RGB channels).
-    - \( H \) and \( W \) are the height and width of each frame.
+    - B is the batch size (number of videos).
+    - T is the number of frames (time steps) in each video.
+    - C is the number of channels (e.g., RGB channels).
+    - H and W are the height and width of each frame.
 
-       
-
-\[
-B \in \mathbb{R}^{B \times T \times C \times H \times W}
-\]
+        $B \in \mathbb{R}^{B \times T \times C \times H \times W}$
 
 - **Spatial Encoder and Decoder Reshaping**
 
    - To focus on spatial correlations within each frame.
    - Reshaping:
-     \[
-     B \times T \times C \times H \times W \rightarrow (B \times T) \times C \times H \times W
-     \]
+     
+     $B \times T \times C \times H \times W \rightarrow (B \times T) \times C \times H \times W$
+     
      - treat each frame in every video as an independent image in the batch.
      - This allows the spatial encoder and decoder to process frames individually.
 
@@ -251,13 +247,11 @@ B \in \mathbb{R}^{B \times T \times C \times H \times W}
 
    - To focus on temporal correlations across frames.
    - Reshaping:
-     \[
-     B \times T \times C \times H \times W \rightarrow B \times (T \times C) \times H \times W
-     \]
+    
+        $B \times T \times C \times H \times W \rightarrow B \times (T \times C) \times H \times W$
+    
      - combine the time and channel dimensions.
      - This arranges the sequence of frames along the channel dimension, effectively stacking them for temporal processing.
-
-
 
 
 
