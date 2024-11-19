@@ -253,9 +253,122 @@ This allows the model to understand both the spatial structure of each frame and
      - combine the time and channel dimensions.
      - This arranges the sequence of frames along the channel dimension, effectively stacking them for temporal processing.
 
-
+**TAU Module**
 
 ![inter_intra](../asset/inter_intra.png)
+
+For SA:
+
+1. Starts small, focusing on fine details
+
+2. Expands to combine local features into more complex spatial patterns
+
+3. Covers broader areas, learning long-range dependencies across the spatial dimensions of each frame
+
+For DA:
+
+1. The input starts as raw stacked temporal features
+
+2. Dynamical attention extracts and highlights important time-dependent features using AvgPool and FC layers
+
+3. These temporal weights are combined with spatial attention to ensure the model captures how features evolve across frames
+
+- **Intra-frame Statical Attention:**
+
+    - Captures long-range dependencies within each frame
+
+    - Uses:
+        
+        - Depth-wise convolution (DW Conv) for efficient channel-wise processing
+
+        - Dilated depth-wise convolution (DW-D Conv) to increase the receptive field.
+        
+        - 1×1 convolution to combine channel information.
+
+- **Inter-frame Dynamical Attention:**
+
+    - Captures changes across frames (motion and evolution)
+    
+    - Uses:
+
+        - Global average pooling (AvgPool) to summarize spatial features for each channel
+        
+        - Fully connected layers (FC) to learn channel-wise attention weights
+
+The final attention combines statical and dynamical attention using element-wise multiplication
+
+Formula:
+
+![tau_module](../asset/tau_module_formula.png)
+
+- SA: Statical Attention
+
+    $SA \in \mathbb{R}^{B \times (T \times C') \times H \times W}$
+
+- DA: Dynamic Attention
+
+    $DA \in \mathbb{R}^{B \times (T \times C') \times 1 \times 1}$
+
+- ⊗: Kronecker product (expands DA to match SA's dimensions)
+
+- ⊙: Hadamard product (element-wise multiplication)
+
+- H: hidden feature that will be fed into the TAU module
+
+    $H \in \mathbb{R}^{B \times (T \times C') \times H \times W}$
+
+- H': The updated hidden feature after applying attention
+
+
+**Differential Divergence Regulation**
+
+- to help the model predict how frames in a video change over time, making it more aware of variations between consecutive frames
+
+- encourages the model to focus on both spatial accuracy (within a frame) and temporal consistency (between frames)
+
+- Predicted and Ground-Truth Frames:
+
+    - $\hat{Y}$: The predicted frames from the model
+    - $Y$: The ground-truth frames (actual video frames)
+    - Both have the shape T′×C×H×W(time, channels, height, width)
+
+- Forward Difference:
+
+    - The difference between consecutive frames is calculated for both the predicted and ground-truth frames:
+
+        ![for](../asset/diff.png)
+
+    - This tells us how much each pixel changes from one frame to the next
+
+- Softmax:
+
+    - The differences $\Delta\hat{y}$ and $\Delta y$ are converted into probability by the softmax function on the channel, height, and width dimension:
+
+        ![soft](../asset/softmax_prob.png)
+
+    - Softmax focuses on relative differences across all pixels, emphasizing the most significant changes
+    
+    - A temperature parameter $τ=0.1$ is used to sharpen the probabilities
+
+    - Softmax competition mechanism ensures that frames with large differences (i.e. sudden changes or errors) are penalized more during training
+
+    - This encourages the model to predict smoother, more consistent changes over time.
+
+- KL Divergence Regularization:
+
+    - The Kullback-Leibler (KL) divergence is used to compare the probability distributions of the predicted differences $\sigma(\Delta\hat{y})$ and ground-truth differences $\sigma(\Delta y)$:
+
+        ![kl](../asset/KL_divergence.png)
+
+    - This measures how well the predicted temporal variations match the true variations. The closer the two distributions are, the smaller the loss
+
+- Overall Loss:
+
+    - overall objective function consists of the mean square error loss and the differential divergence regularization weighted by a constant $α$:
+
+        ![overall](../asset/overall_loss.png)
+
+    - the first term focuses on intra-frame-level differences, and the second regularization term focuses on interframe-level variations
 
 ## [Domain Adaptive Video Segmentation via Temporal Consistency Regularization](https://openaccess.thecvf.com/content/ICCV2021/papers/Guan_Domain_Adaptive_Video_Segmentation_via_Temporal_Consistency_Regularization_ICCV_2021_paper.pdf)
 
