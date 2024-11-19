@@ -24,13 +24,13 @@
 
     - **support set (S):** first few frames of the video, each with an image and its object mask
 
-        \( S = \{(s_i, m_i)\}_{i=1}^N \)
+        $( S = {(s_i, m_i)}_{i=1}^N)$
 
         $s_i$ and $m_i$ represent the i-th support image and its ground truth mask
 
     - **query set (Q):** The following frames, where the model has to predict the object’s location.
 
-        \( Q = \{(q_k, y_k)\}_{k=1}^K \)
+        $( Q = {(q_k, y_k)}_{k=1}^K)$
 
         $q_k$ and $y_k$ denote the k-th query image and the corresponding annotation mask
 
