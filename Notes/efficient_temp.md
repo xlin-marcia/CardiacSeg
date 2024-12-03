@@ -1,23 +1,21 @@
-## 1. Reduce Storage Occupancy (memory bank)
+## Reduce Storage Occupancy (memory bank)
 
-- Tasks:
+- Significance Analysis:
+    - Determine a measurement metric for change in object feature across frames
+    (Euclidean distance in feature space; Structural Similarity Index; optical flow...)
+    - Set up a threshold or scoring mechanism to identify high-significance frames.
 
-    - Analyze object pointer tokens and IoU/occlusion scores
-    - Retain frames with high semantic significance
-    - Discard redundant frames while preserving segmentation accuracy
+- Frame Filtering:
+    - Implement a temporal frame selection algorithm based on IoU, object visibility, or change in object features across frames (metric from above step)
 
-- Implementation:
+- Memory Optimization:
+    - Retain only keyframe embeddings in the memory bank.
+    - Store compact representations of less significant frames (lower resolution or reduced feature dimension)
 
-    - Semantic Significance Analysis:
-        - Extract IoU predictions, object pointer tokens, and occlusion scores during inference.
-        - Set up a threshold or scoring mechanism to identify high-significance frames.
+- Need to research:
 
-    - Frame Filtering:
-        - Implement a temporal frame selection algorithm based on IoU, object visibility, or change in object features across frames.
-
-    - Memory Optimization:
-        - Retain only keyframe embeddings in the memory bank.
-        - Store compact representations of less significant frames (lower resolution or reduced feature dimension)
+    - best metric to measure change in object feature across frames
+    - what is an appropriate threshold to identify significant frames?
 
 - Need to Read:
 
@@ -31,31 +29,5 @@
         - treating video object segmentation as clip-wise mask propagation. It introduces a per-clip inference scheme that provides accuracy gains by clip-level optimization and efficiency gains by parallel computation of multiple frames
 
 
-## 2. Computational Efficiency
 
-- Tasks:
-
-    - Replace dense temporal embeddings with distilled temporal tokens
-    - Use attention weights to aggregate features into compact temporal summary tokens
-    - Incorporate temporal aggregation in the memory encoder
-
-- Implementation:
-
-    - Temporal Embedding Distillation:
-        
-        - Apply attention mechanisms to aggregate adjacent temporal embeddings into a smaller number of summary tokens.
-        - Implement a distillation framework to learn representations that capture temporal dynamics effectively.
-
-    - Temporal Aggregation in Memory Encoder:
-        
-        - Modify the memory encoder to include temporal summarization layers (e.g., self-attention or RNN-based layers).
-        - Experiment with different levels of temporal granularity for aggregation (e.g., short-term vs. long-term dependencies).
-
-    - Efficient Cross-Attention:
-        
-        - Optimize cross-attention mechanisms between object pointer tokens and memory embeddings by sparsifying attention weights or using low-dimensional embeddings.
-
-- Need to read
-
-    - Distilling Temporal Knowledge with Masked Feature Reconstruction for 3D Object Detection (arXiv 2024)
-
+**similar methods might be applied to the memory block for inter-slice?**
