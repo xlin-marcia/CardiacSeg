@@ -31,7 +31,6 @@
         - treating video object segmentation as clip-wise mask propagation. It introduces a per-clip inference scheme that provides accuracy gains by clip-level optimization and efficiency gains by parallel computation of multiple frames
 
 
-
 ## 2. Computational Efficiency
 
 - Tasks:
