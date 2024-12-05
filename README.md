@@ -48,6 +48,11 @@
 
 - TAU module for temporal <br>**[[Note]](Notes/video_seg.md)**
 
+**Dec/5 Update:**
+
+- Research on 2D&3D encoder methods <br>**[[Note]](Notes/encoder_3d.md)**
+
+- Research Direction for optimizing storage occupancy <br>**[[Note]](Notes/efficient_temp.md)**
 
 ## To be explored
 
@@ -68,7 +73,7 @@
 
 - Literature Review on video segmentation
 
-## Experiments to be done
+## Experiments done
 
 - SAM2 on 2 datasets **[Marcia]**
 
@@ -77,3 +82,14 @@
   - nnUNet **[Arjun]**
 
   - MedSAM2 **[Arjun]**
+
+
+## Experiment to be done
+
+- Comparision Test: **[Arjun]**
+
+  - Deep Separable Spatiotemporal Learning for Fast Dynamic Cardiac MRI
+
+  - Deep Conditional Shape Models for 3D Cardiac Segmentation
+
+  - TransUNet
