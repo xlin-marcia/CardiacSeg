@@ -146,3 +146,20 @@ class Attention(nn.Module):
         attention_output = self.proj_dropout(attention_output)
 
         return attention_output
+
+# need to revise    
+class Mlp(nn.Module):
+    def __init__(self, config):
+        super(Mlp, self).__init__()
+        self.fc1 = nn.Linear(config.hidden_size, config.mlp_dim)
+        self.fc2 = nn.Linear(config.mlp_dim, config.hidden_size)
+        self.act_fn = nn.GELU()
+        self.dropout = nn.Dropout(config.transformer.dropout_rate)
+
+    def forward(self, x):
+        x = self.fc1(x)
+        x = self.act_fn(x)
+        x = self.dropout(x)
+        x = self.fc2(x)
+        x = self.dropout(x)
+        return x
