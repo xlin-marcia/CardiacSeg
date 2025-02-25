@@ -8,4 +8,5 @@ def get_example_config():
     config.transformer.num_heads = 6
     config.transformer.attention_dropout_rate = 0.1
     config.transformer.dropout_rate = 0.1
+    config.mlp_dim = 512 
     return config
