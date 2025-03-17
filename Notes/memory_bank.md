@@ -158,3 +158,80 @@ if self.use_obj_ptrs_in_encoder:
     - Memory attention integrates past feature maps (`memory`)
     - A new spatial feature map (`pix_feat_with_mem`) is generated, merging past and present frame knowledge.
 
+
+
+### Methods to reduce occupancy
+
+#### 1. Significance Analysis
+- Goal: Identify which frames contain meaningful changes and should be stored.
+- Approach:
+    - Determine a measurement metric for change in object features across frames:
+        - Frame Differencing: Compute the absolute difference between consecutive frames. Significant changes indicate motion or scene transitions. ​
+
+        - Histogram Comparison: Analyze color histograms of successive frames; notable differences can signal scene changes. ​
+        
+        - Optical Flow Analysis: Measure pixel movement between frames to detect motion intensity and direction. ​
+
+        - Edge Change Ratio (ECR): Assess variations in edge information to detect scene transitions. ​
+
+        - Structural Similarity Index (SSIM): Evaluate perceptual differences between frames, focusing on luminance, contrast, and structure.
+    
+    - Considerations:
+
+        - Threshold Setting: Define appropriate thresholds for each metric to distinguish significant changes from minor variations.​
+
+        - Computational Load: Balance the accuracy of significance detection with processing time and resource consumption.
+
+
+#### 2. Frame Filtering
+- Goal: Reduce redundant storage by keeping only relevant frames.
+- Approach:
+    - Implement a temporal frame selection algorithm:
+        - IoU-Based Selection: Only store frames where IoU between object masks changes significantly
+        - Feature-Based Selection: Compare feature vector shifts (from Step 1) to filter out redundant frames
+        - Genetic Algorithms: Utilize optimization strategies to select key frames based on predefined criteria. ​
+        - Spatiotemporal Dynamics: Consider both spatial and temporal information to determine frame significance. ​
+    - Retain only keyframes where:
+        - The object undergoes significant deformation
+        - The object's appearance changes drastically due to change in shape/size
+        - The movement introduces major scene variations
+
+
+#### 3. Memory Optimization
+- Goal: Reduce memory footprint by optimizing how frames are stored.
+- Approach:
+    - Store only keyframe embeddings in the memory bank.
+    - Use compressed representations for less significant frames:
+        - Lower resolution feature maps (downsample to reduce memory size).
+        - Reduced feature dimension (apply PCA or feature pruning).
+    - Store a rolling buffer of the last `N` most significant frames instead of retaining all past frames.
+
+#### 4. Need to Research
+- Best metric to measure object feature change across frames:
+    - What metric is most robust to shape and scale variations?
+    - Does a combination (e.g., IoU + Optical Flow) provide better significance detection?
+
+- What is an appropriate threshold to identify significant frames?
+    - How much change should trigger frame storage?
+    - Adaptive thresholding: Can a dynamic threshold (based on motion complexity) improve efficiency?
+
+- Determine which method is the best for identifying significant frames:
+    - Compare different significance metrics in real-world tracking scenarios.
+    - Conduct experiments on various datasets to analyze accuracy and efficiency.
+    - Evaluate trade-offs between computational cost and segmentation quality.
+
+
+#### 5. Potential Implementation in SAM2
+- Modify `_prepare_memory_conditioned_features()` to limit memory storage:
+    ```python
+    if self.use_obj_ptrs_in_encoder:
+        # Only keep keyframes based on significance score
+        pos_and_ptrs = [
+            (t_diff, out["obj_ptr"]) for t, out in selected_cond_outputs.items()
+            if significance_score(out["obj_ptr"]) > threshold
+        ]
+    ```
+- Apply spatial compression before storing memory:
+    ```python
+    compressed_mem = downsample_features(maskmem_features)
+    ```
