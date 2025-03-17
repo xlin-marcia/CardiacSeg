@@ -54,9 +54,9 @@
 
 - Research Direction for optimizing storage occupancy <br>**[[Note]](Notes/efficient_temp.md)**
 
-## To be explored
+<br>**[Weekly Group Meeting](Notes/group_meeting.md)**
 
-- MICCAI 2024 paper on SAM2
+## To be explored
 
 - Design of loss function to add shape constraint in the training loop
 
@@ -83,13 +83,15 @@
 
   - MedSAM2 **[Arjun]**
 
+  - TransUNet
+
+
 
 ## Experiment to be done
 
-- Comparision Test: **[Arjun]**
+- Comparision Test:
 
   - Deep Separable Spatiotemporal Learning for Fast Dynamic Cardiac MRI
 
   - Deep Conditional Shape Models for 3D Cardiac Segmentation
 
-  - TransUNet
