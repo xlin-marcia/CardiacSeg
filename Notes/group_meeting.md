@@ -42,3 +42,22 @@
 
 - skip connection could work for first and end frame
 
+
+## Meeting with Huihui 2/Apr
+
+- FIFO: How the memory contribute to the current task, may store efficiently only the useful frames (not storing every frame)
+
+    - Which ones to select to make it out - make sure variety
+
+    - compare the effect of segmentation
+
+    - change the strategy of FIFO -> affect the accuracy of segmentation (ablation test)
+
+
+- Loss function: wassertein 0.3, 0.2, 0.2, 0.3, use this for later training
+
+- Use Lora fine tuning for encoder (ablation study on this)
+
+
+
+
