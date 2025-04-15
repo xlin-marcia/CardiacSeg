@@ -96,49 +96,49 @@ Could useful in low-motion video scenarios such as medical image sequences, wher
 2. in sam2_video_predictor.py
    ```python
        @torch.inference_mode()
-    def _get_image_feature(self, inference_state, frame_idx, batch_size):
-        """
-        Compute or retrieve selective cached image features using Sobel‑diff novelty.
-        """
-        from modeling.sam2_utils import is_significant
-
-        # grab raw frame tensor
-        raw = inference_state["images"][frame_idx].to(inference_state["device"]).float()
-        # get or init lists
-        feats_list = inference_state["cached_features"].setdefault(frame_idx, [])
-        raws_list = inference_state["cached_raws"].setdefault(frame_idx, [])
-
-        # decide if we need to compute new features
-        if not feats_list or is_significant(new_frame=raw, memory_frames=raws_list, tau_grad=10.0):
-            # compute fresh
-            image = raw.unsqueeze(0)  # 1×C×H×W
-            backbone_out = self.forward_image(image)
-            # append selective
-            feats_list.append((image, backbone_out))
-            raws_list.append(raw)
-            # enforce slot limit
-            if len(feats_list) > self.max_mem_slots:
-                feats_list.pop(0)
-                raws_list.pop(0)
-        else:
-            # reuse last cached
-            image, backbone_out = feats_list[-1]
-
-        # now expand per-object
-        expanded_image = image.expand(batch_size, -1, -1, -1)
-        expanded_backbone_out = {
-            "backbone_fpn": backbone_out["backbone_fpn"].copy(),
-            "vision_pos_enc": backbone_out["vision_pos_enc"].copy(),
-        }
-        for i, feat in enumerate(expanded_backbone_out["backbone_fpn"]):
-            expanded_backbone_out["backbone_fpn"][i] = feat.expand(
-                batch_size, -1, -1, -1
-            )
-        for i, pos in enumerate(expanded_backbone_out["vision_pos_enc"]):
-            expanded_backbone_out["vision_pos_enc"][i] = pos.expand(
-                batch_size, -1, -1, -1
-            )
-
-        features = self._prepare_backbone_features(expanded_backbone_out)
-        return (expanded_image,) + features
+       def _get_image_feature(self, inference_state, frame_idx, batch_size):
+           """
+           Compute or retrieve selective cached image features using Sobel‑diff novelty.
+           """
+           from modeling.sam2_utils import is_significant
+   
+           # grab raw frame tensor
+           raw = inference_state["images"][frame_idx].to(inference_state["device"]).float()
+           # get or init lists
+           feats_list = inference_state["cached_features"].setdefault(frame_idx, [])
+           raws_list = inference_state["cached_raws"].setdefault(frame_idx, [])
+   
+           # decide if we need to compute new features
+           if not feats_list or is_significant(new_frame=raw, memory_frames=raws_list, tau_grad=10.0):
+               # compute fresh
+               image = raw.unsqueeze(0)  # 1×C×H×W
+               backbone_out = self.forward_image(image)
+               # append selective
+               feats_list.append((image, backbone_out))
+               raws_list.append(raw)
+               # enforce slot limit
+               if len(feats_list) > self.max_mem_slots:
+                   feats_list.pop(0)
+                   raws_list.pop(0)
+           else:
+               # reuse last cached
+               image, backbone_out = feats_list[-1]
+   
+           # now expand per-object
+           expanded_image = image.expand(batch_size, -1, -1, -1)
+           expanded_backbone_out = {
+               "backbone_fpn": backbone_out["backbone_fpn"].copy(),
+               "vision_pos_enc": backbone_out["vision_pos_enc"].copy(),
+           }
+           for i, feat in enumerate(expanded_backbone_out["backbone_fpn"]):
+               expanded_backbone_out["backbone_fpn"][i] = feat.expand(
+                   batch_size, -1, -1, -1
+               )
+           for i, pos in enumerate(expanded_backbone_out["vision_pos_enc"]):
+               expanded_backbone_out["vision_pos_enc"][i] = pos.expand(
+                   batch_size, -1, -1, -1
+               )
+   
+           features = self._prepare_backbone_features(expanded_backbone_out)
+           return (expanded_image,) + features
    ```
