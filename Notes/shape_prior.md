@@ -6,6 +6,7 @@
 - [AnatSwin](#anatswinhttpswwwsciencedirectcomsciencearticlepiis0925231224001504)
 - [Learning with Explicit Shape Priors for Medical  Image Segmentation](#learning-with-explicit-shape-priors-for-medical--image-segmentationhttpsarxivorgpdf230317967)
   - [Innovation](#innovation)
+  - [Revision Notes](#revision-notes)
 - [Anatomy-Guided Pathology Segmentation](#anatomy-guided-pathology-segmentationhttpsarxivorgpdf240705844)
 - [Cardiac Segmentation With Strong  Anatomical Guarantees](#cardiac-segmentation-with-strong--anatomical-guaranteeshttpsarxivorgpdf200608825)
 
@@ -251,6 +252,116 @@
 ### Innovation
 
 ![innovative_structure](../asset/innovative_structure.jpg)
+
+### Revision Notes
+
+**Dimension of shape prior**
+
+- Dimension of $S_0$: $N \times h \times w \times l$
+
+- N is the number of classes
+
+- Input batch size: $H \times W \times L$
+
+- $h \times w \times l$ is $\frac{1}{16}$ of the patch size
+
+**How does SPM work?**
+
+- Learnable shape priors will generate refined attention maps with sufficient shape information under the guidance of conv envcoded features.
+
+- At the same time, encoded features will generate more accurate segmentation via shape priors
+
+- SPM will interact with multi-scale features, so, hierarchical encoded features before skip connections will be equipped with richer shape information through SPM
+
+- Enhanced shape prior is made of global shape prior (generated through self-update block) and local shape prior (generated from cross-update block).
+
+**SUB**
+
+- Uses self-attention mechanism to model relationship between classes (LV, RV< MYO)
+
+- Goal is to generate global shape prior that summarizes anatomical structure relationship across all classes
+
+**CUB**
+
+- Add local shape sensitivity, more detailed shapes
+
+- Cross attention
+
+
+![equ](../asset/SPM_equation.png)
+
+- F: forward propagation during inference
+- S: consecutive shape prior constructing the mapping between image space and label space (I and L)
+- S is updated in training processs as image-GT pair varies. 
+
+- **During training:**
+
+    - The model learns shape priors by seeing many images and their correct labels.
+
+    - The shape prior function SS learns how image space relates to label space.
+
+    - During training, the model doesn't just learn how to map images to segmentation masks — it also learns a set of parameters (called shape priors) that capture what each class (like an organ or structure) should typically look like.
+
+  - These parameters:
+
+      - Are stored as embeddings or feature maps (e.g., one for each class)
+
+      - Are learned just like weights in a neural network
+
+      - Get updated during training as the model sees more image-label pairs
+
+      - Are fixed after training and reused during inference to help guide predictions
+
+
+- **During testing:**
+
+    - These shape priors are fixed and reused.
+
+    - They help focus on important areas (like organs) and ignore background.
+
+- **How are they used to guide segmentation**
+
+  - shape prior as attention maps
+
+    - From the shape priors, model builds an affinity map ($S_{map}$ and $C_{map}$)
+
+    - These attention maps are used to highlight important regions and supress background
+
+
+  - Enhance feature maps
+
+    - use attention weights, model enhance feature maps ($F_{e}$)
+
+    - $F_{e}$ is updated from guidance of shape prior $S_{G}$
+
+  - Generating local shape priors
+
+    - With both global shape knowledge and local image cues, $S_e$ is used to guide the decoder to generate anatomically plausible segmentation masks.
+
+- **What changes when we plug in SPM?**
+
+  - Initialized a set of learnable parameters (shape prior embeddings), which are trained alongside the main network.
+
+  - For UNet, encoded features are not passed directly to decoder, but instead, refined shape priors and enriched features are passed to the decoder -> decoder is now working with anatomically aware features.
+
+  - During training, the loss between prediction and ground truth updates the shape priors and attention maps indirectly — helping them become smarter at guiding segmentation.
+
+- **During inference phase, what does SPM affect?**
+
+  - Normally, an image is passed, model runs forward pass through encodder, skip connection and decoder, then produce segmentation mask.
+
+  - Now:
+
+    - Pass an image
+    - encoder extracts feature
+    - learned shape prior are used to:
+      - generate global shape priorvisa SUB
+      - interact with iamge feature via CUB
+      - get new enhanced feature and enhanced shape prior
+    - Shape aware features are passed to decoder instead of skip connection features
+    - Decoder use these "new" features to produce final segmentation mask
+    - enhanced shape prior helps refined the features during attention process, but it is not directly passed to decoder.
+
 
 ## [Anatomy-Guided Pathology Segmentation](https://arxiv.org/pdf/2407.05844)
 
