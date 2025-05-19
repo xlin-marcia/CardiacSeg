@@ -1,4 +1,4 @@
-# Core dependencies
+# core dependencies
 numpy>=1.20.0
 torch>=2.5.1
 torchvision>=0.20.1
@@ -9,13 +9,11 @@ opencv-python>=4.5.0
 tqdm>=4.62.0
 hydra-core>=1.3.0
 
-# For training
+# dor training
 pyyaml>=6.0
 scikit-learn>=1.0.0
 scikit-image>=0.19.0
 
-# For evaluation
-medpy>=0.4.0  # For medical image processing metrics
-
-# Optional: for memory efficiency
-psutil>=5.9.0  # For monitoring memory usage
+# for evaluation
+medpy>=0.4.0  
+psutil>=5.9.0 
